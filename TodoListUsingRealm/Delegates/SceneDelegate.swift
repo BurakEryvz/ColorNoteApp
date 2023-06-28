@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwipeCellKit
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

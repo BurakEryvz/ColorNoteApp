@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import RealmSwift
+import SwipeCellKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
