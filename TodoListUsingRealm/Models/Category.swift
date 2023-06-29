@@ -7,12 +7,14 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 class Category : Object {
-    @objc dynamic var name: String = ""
+    @Persisted var name: String = ""
+    @Persisted var categoryColorName: String = "#FFFFFF"
     
     //İleri (düz) ilişki tanımlandı.
-    let items = List<Item>()
+    @Persisted var items = List<Item>()
     
     
 }

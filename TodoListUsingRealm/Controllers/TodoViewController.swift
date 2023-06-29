@@ -7,6 +7,8 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
+import ChameleonFramework
 
 
 class TodoViewController: UITableViewController {
@@ -21,15 +23,33 @@ class TodoViewController: UITableViewController {
     var selectedCategory : Category? {
         didSet{
             loadItems()
+            
         }
     }
     
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        searchBar.delegate = self
+        searchBar.delegate = self
         
+        tableView.rowHeight = 80.0
+        tableView.separatorEffect = .none
+        
+        
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        var color = selectedCategory?.categoryColorName
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: color!)
+        navigationController?.navigationBar.backgroundColor = UIColor(hexString: color!)
+        title = selectedCategory?.name
+        searchBar.barTintColor = UIColor(hexString: color!)
+        searchBar.tintColor = UIColor.white
         
         
     }
@@ -42,14 +62,23 @@ class TodoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableCell", for: indexPath) as! SwipeTableViewCell
         
         if let item = itemArray?[indexPath.row] {
             cell.textLabel?.text = item.title
             cell.accessoryType = item.isCheck ? .checkmark : .none
+            var color = selectedCategory?.categoryColorName
+            cell.backgroundColor = UIColor(hexString: color!)!.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(itemArray!.count))
+            cell.textLabel?.textColor = .white
+            
+            
         }else {
             cell.textLabel?.text = "Not items added yet."
+            cell.backgroundColor = .white
         }
+        
+        
+        cell.delegate = self
         
         return cell
     }
@@ -99,6 +128,7 @@ class TodoViewController: UITableViewController {
                         let newItem = Item()
                         newItem.title = textField.text!
                         newItem.isCheck = false
+                        newItem.itemColorName = UIColor.randomFlat().hexValue()
                         currentCategory.items.append(newItem)
                     })
                 }catch{
@@ -184,4 +214,36 @@ extension TodoViewController: UISearchBarDelegate {
         }
     }
 
+}
+
+extension TodoViewController : SwipeTableViewCellDelegate {
+    
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            
+            if let itemForDeletion = self.itemArray?[indexPath.row] {
+                
+                do{
+                    try self.realm.write({
+                        self.realm.delete(itemForDeletion)
+                    })
+                }catch{
+                    print(error)
+                }
+                
+                self.tableView.reloadData()
+            }
+            
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "Trash Icon")
+        
+
+        return [deleteAction]
+    }
+    
 }

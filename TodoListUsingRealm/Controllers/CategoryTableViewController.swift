@@ -8,13 +8,15 @@
 import UIKit
 import RealmSwift
 import SwipeCellKit
+import ChameleonFramework
+
 
 
 class CategoryTableViewController: UITableViewController {
     
     let realm = try! Realm()
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    
     
     
     // Results veri tipi otomatik guncellenen bir list yapisidir.
@@ -24,11 +26,27 @@ class CategoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchBar.delegate = self
+        
         self.loadCategory()
         
         tableView.rowHeight = 80.0
+        tableView.separatorEffect = .none
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = UIColor.flatSkyBlue()
+        navigationController?.navigationBar.backgroundColor = UIColor.flatSkyBlue()
+        title = "ColorNote"
+        
+        
+        
+        
+        
+        
+        
+        
+
     }
     
     // MARK: - Add Button Method
@@ -43,6 +61,7 @@ class CategoryTableViewController: UITableViewController {
                 
                 let newCategory = Category()
                 newCategory.name = textField.text!
+                newCategory.categoryColorName = UIColor.randomFlat().hexValue()
                 
                 self.saveCategory(object: newCategory)
                 self.tableView.reloadData()
@@ -77,6 +96,9 @@ class CategoryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! SwipeTableViewCell
         
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet."
+        var color = categories?[indexPath.row].categoryColorName
+        cell.backgroundColor = UIColor(hexString: color!)
+        cell.textLabel?.textColor = .white
         
         cell.delegate = self
         
@@ -128,41 +150,7 @@ class CategoryTableViewController: UITableViewController {
 }
 
 
-extension CategoryTableViewController : UISearchBarDelegate {
-    
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        if searchBar.text == "" {
-            self.loadCategory()
-            self.tableView.reloadData()
 
-        } else {
-            
-            
-            categories = categories?.filter("name CONTAINS[cd] %@", searchBar.text!)
-            
-            self.tableView.reloadData()
-            
-        }
-        
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0 {
-            self.loadCategory()
-            self.tableView.reloadData()
-            
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        } else {
-            searchBarSearchButtonClicked(searchBar.self)
-        }
-    }
-    
-    
-}
 
 extension CategoryTableViewController : SwipeTableViewCellDelegate {
     

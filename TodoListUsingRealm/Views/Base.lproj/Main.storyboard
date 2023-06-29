@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Category Table View Controller-->
+        <!--TodoList-->
         <scene sceneID="2Eb-X2-uzy">
             <objects>
                 <tableViewController id="JO4-GS-iYc" customClass="CategoryTableViewController" customModule="TodoListUsingRealm" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,17 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Pzv-WH-gha">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="JO4-GS-iYc" id="yQK-Ry-ZjR"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="sbW-40-MaF" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
-                                <rect key="frame" x="0.0" y="94" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sbW-40-MaF" id="trM-Nj-aPW">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -39,15 +31,15 @@
                             <outlet property="delegate" destination="JO4-GS-iYc" id="9bw-vv-Usd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="efq-mH-mh4">
+                    <navigationItem key="navigationItem" title="TodoList" id="efq-mH-mh4">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="e5f-Jj-Em3">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="JO4-GS-iYc" id="P3k-Ga-UVG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchBar" destination="Pzv-WH-gha" id="wiR-Em-tgC"/>
                         <segue destination="ShS-pI-Vpt" kind="show" identifier="goToItems" id="l8k-d1-zXc"/>
                     </connections>
                 </tableViewController>
@@ -55,7 +47,7 @@
             </objects>
             <point key="canvasLocation" x="850.72463768115949" y="22.767857142857142"/>
         </scene>
-        <!--Todo View Controller-->
+        <!--Items-->
         <scene sceneID="MmW-yc-l8u">
             <objects>
                 <tableViewController id="ShS-pI-Vpt" customClass="TodoViewController" customModule="TodoListUsingRealm" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,7 +64,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemTableCell" id="j4N-KL-9eM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemTableCell" id="j4N-KL-9eM" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="94" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j4N-KL-9eM" id="HrM-Zb-H3z">
@@ -86,8 +78,9 @@
                             <outlet property="delegate" destination="ShS-pI-Vpt" id="zMM-qY-cBj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Km3-r2-Pky">
+                    <navigationItem key="navigationItem" title="Items" id="Km3-r2-Pky">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fuc-RG-aAq">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="ShS-pI-Vpt" id="46h-iS-RKz"/>
                             </connections>
@@ -104,11 +97,20 @@
         <!--Navigation Controller-->
         <scene sceneID="tHN-lN-nR6">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XsU-IC-hkE" sceneMemberID="viewController">
+                <navigationController wantsFullScreenLayout="YES" automaticallyAdjustsScrollViewInsets="NO" id="XsU-IC-hkE" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="H0V-86-YVd">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="H0V-86-YVd">
+                        <rect key="frame" x="0.0" y="48" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -120,6 +122,7 @@
             <point key="canvasLocation" x="-59.420289855072468" y="22.767857142857142"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

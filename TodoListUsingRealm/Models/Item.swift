@@ -7,10 +7,12 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 class Item: Object {
-    @objc dynamic var title: String = ""
-    @objc dynamic var isCheck: Bool = false
+    @Persisted  var title: String = ""
+    @Persisted  var isCheck: Bool = false
+    @Persisted  var itemColorName: String = "#FFFFFF"
     
-    var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
+    @Persisted var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
 }
